@@ -1,0 +1,16 @@
+node_modules/
+.cypress_cache/
+output/
+coverage/
+
+# Cypress videos and screenshots
+cypress/videos/
+cypress/screenshots/
+
+# Environment variables
+cypress.env.json
+.env
+
+# Logs and temporary files
+*.log
+*.tmp
