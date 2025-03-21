@@ -7,10 +7,6 @@ coverage/
 cypress/videos/
 cypress/screenshots/
 
-# Environment variables
-cypress.env.json
-.env
-
 # Logs and temporary files
 *.log
 *.tmp
