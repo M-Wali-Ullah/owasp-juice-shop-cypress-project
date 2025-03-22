@@ -5,10 +5,38 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+
+      # Install NPM dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Run Cypress tests and generate reports
       - name: Cypress run
         uses: cypress-io/github-action@v4.1.0
+        with:
+          record: true
+          parallel: true
+          group: 'Cypress Tests'
+
+      # Install mochawesome for generating HTML reports
+      - name: Install mochawesome report generator
+        run: |
+          npm install mochawesome mochawesome-merge mochawesome-report-generator
+
+      # Generate mochawesome report after tests
+      - name: Generate interactive report
+        run: |
+          npx mochawesome-merge cypress/results/*.json > cypress/results/report.json
+          npx mochawesome-report-generator cypress/results/report.json --reportTitle "Cypress Test Report" --inlineAssets
+
+      # Upload the Cypress test report as an artifact
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-test-report
+          path: cypress/results/mochawesome-report/index.html
