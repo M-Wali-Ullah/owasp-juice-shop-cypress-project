@@ -15,7 +15,7 @@ jobs:
         run: |
           npm install
 
-      # Run Cypress tests and generate reports
+      # Run Cypress tests and generate results
       - name: Cypress run
         uses: cypress-io/github-action@v4.1.0
         with:
@@ -28,14 +28,15 @@ jobs:
         run: |
           npm install mochawesome mochawesome-merge mochawesome-report-generator
 
-      # Generate mochawesome report after tests
+      # Merge the results and generate interactive report
       - name: Generate interactive report
         run: |
           npx mochawesome-merge cypress/results/*.json > cypress/results/report.json
           npx mochawesome-report-generator cypress/results/report.json --reportTitle "Cypress Test Report" --inlineAssets
 
-      # Upload the Cypress test report as an artifact
-      - name: Upload report
+      # Check if the report exists and upload the report
+      - name: Upload Cypress test report
+        if: exists('cypress/results/mochawesome-report/index.html')
         uses: actions/upload-artifact@v2
         with:
           name: cypress-test-report
