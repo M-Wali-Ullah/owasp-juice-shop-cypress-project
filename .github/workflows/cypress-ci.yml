@@ -15,10 +15,10 @@ jobs:
       - name: Install dependencies and run Cypress tests
         uses: cypress-io/github-action@v4.1.0
         
-      - name: Copy test execution videos
-        run: |
-          mkdir public
-          cp -r cypress/videos public/videos
+      # - name: Copy test execution videos
+      #   run: |
+      #     mkdir public
+      #     cp -r cypress/videos public/videos
 
       - name: Merge test results into one
         run: npm run report:merge
